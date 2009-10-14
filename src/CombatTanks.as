@@ -1,6 +1,7 @@
 package {
 	import com.adamatomic.flixel.*;
 	import flash.system.*;
+	import com.google.analytics.GATracker;
 	
 	public class CombatTanks extends FlxGame	{
 		[Embed(source="./data/grass1.png")] static protected var ImgGrassA:Class;
@@ -10,7 +11,9 @@ package {
 		[Embed(source="./data/snow1.png")] static protected var ImgSnowA:Class;
 		[Embed(source="./data/snow2.png")] static protected var ImgSnowB:Class;
 		
-		static public const version:String = "0.5.10";
+		static public const version:String = "0.5.11";
+		
+		static public var tracker:GATracker;
 		
 		static public var terrains:Array = [
 				[0xff009900, ImgGrassA, ImgGrassB],
@@ -24,10 +27,13 @@ package {
 		static public var playerNum:int;
 		
 		public function CombatTanks():void {
+			
 			Security.loadPolicyFile("xmlsocket://files.tigsource.com:843");
 			currentTerrain = Math.floor(Math.random()*2)
 			currentTerrain = 1; // debug
 			super(800, 576, WaitPlayState, 1, terrains[currentTerrain][0], false, 0xffffffff);
+			tracker = new GATracker(this, "UA-6824126-7", "AS3", false);
+			tracker.trackEvent("Sessions", "Started");
 			//super(800, 576, PracticePlayState, 1, terrains[currentTerrain][0], false, 0xffffffff);
 		}
 		

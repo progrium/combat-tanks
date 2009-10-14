@@ -19,10 +19,13 @@ package
 		}
 		
 		public function updateState(update:Object):void {
-			//stateUpdate = update;
-			this.x = update['x'];
+			//this.stateUpdate = update;
+			/*this.x = update['x'];
 			this.y = update['y'];
-			this.angle = update['a'];
+			this.angle = update['a'];*/
+			this.angle = update['a'] + angularVelocity*update['latency'];
+			this.x = update['x'] + velocity.x*update['latency'];
+			this.y = update['y'] + velocity.y*update['latency'];
 		}
 		
 		override public function update():void {
@@ -40,12 +43,18 @@ package
 			}
 		
 			super.update();
-			/*
-			if (stateUpdate['latency'] > 0) {
-				angle = stateUpdate['a'] + (angularVelocity = FlxG.computeVelocity(angularVelocity,angularAcceleration,angularDrag,maxAngular))*stateUpdate['latency'];
-				x = stateUpdate['x'] + (velocity.x = FlxG.computeVelocity(velocity.x,acceleration.x,drag.x,maxVelocity.x))*stateUpdate['latency'];
-				y = stateUpdate['y'] + (velocity.y = FlxG.computeVelocity(velocity.y,acceleration.y,drag.y,maxVelocity.y))*stateUpdate['latency'];
-				stateUpdate['latency'] = 0;
+			
+			/*if (this.stateUpdate['latency'] > 0) {
+				if (this.move['left'] || this.move['right'] || this.move['up'] || this.move['down']) {
+					this.angle = stateUpdate['a'] + (this.angularVelocity = FlxG.computeVelocity(angularVelocity,angularAcceleration,angularDrag,maxAngular))*this.stateUpdate['latency'];
+					this.x = stateUpdate['x'] + (this.velocity.x = FlxG.computeVelocity(velocity.x,acceleration.x,drag.x,maxVelocity.x))*this.stateUpdate['latency'];
+					this.y = stateUpdate['y'] + (this.velocity.y = FlxG.computeVelocity(velocity.y,acceleration.y,drag.y,maxVelocity.y))*this.stateUpdate['latency'];
+				} else {
+					this.angle = stateUpdate['a'];
+					this.x = stateUpdate['x'];
+					this.y = stateUpdate['y'];
+				}
+				this.stateUpdate['latency'] = 0;
 			}*/
 		}
 		

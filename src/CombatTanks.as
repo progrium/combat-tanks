@@ -10,7 +10,7 @@ package {
 		[Embed(source="./data/snow1.png")] static protected var ImgSnowA:Class;
 		[Embed(source="./data/snow2.png")] static protected var ImgSnowB:Class;
 		
-		static public const version:String = "0.5.2";
+		static public const version:String = "0.5.10";
 		
 		static public var terrains:Array = [
 				[0xff009900, ImgGrassA, ImgGrassB],

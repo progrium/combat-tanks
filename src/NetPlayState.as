@@ -1,5 +1,6 @@
 package {
 	import com.adamatomic.flixel.*;
+	
 	import flash.utils.*;
 	
 	public class NetPlayState extends PlayState {
@@ -17,7 +18,8 @@ package {
 		protected var moving:Boolean = false;
 		
 		protected var pingTimer:Number = 0;
-		protected var ping:FlxText;
+		protected var latency:Number;
+		protected var pingText:FlxText;
 		
 		protected var playerPositions:Array = [[64,64, 0, 'red'], [680, 462, 180, 'blue']];
 		
@@ -41,12 +43,14 @@ package {
 		
 		override public function setupHud():void {
 			super.setupHud();
-			this.ping = new FlxText(10, 550, 200, 20, "Ping", 0xffffffff, null, 16);
-			this.add(this.ping);
+			this.pingText = new FlxText(10, 550, 200, 20, "Ping", 0xffffffff, null, 16);
+			this.add(this.pingText);
 		}
 		
 		public function onPong(payload:Object):void {
-			this.ping.setText((getTimer()-payload['time']).toString());
+			var ping:int = (getTimer()-payload['time']);
+			this.latency =  ping / 1000;
+			this.pingText.setText(ping.toString());
 		}
 		
 		public function onShoot(payload:Object):void {
@@ -124,11 +128,11 @@ package {
 		
 		public function onState(payload:Object):void {
 			var rp:RemotePlayer = this.remotePlayers[payload['player']];
-			payload['latency'] = this.ping;
-			//rp.updateState(payload);
-			rp.x = payload['x'];
-			rp.y = payload['y'];
-			rp.angle = payload['a'];
+			payload['latency'] = this.latency;
+			rp.updateState(payload);
+			//rp.x = payload['x'];
+			//rp.y = payload['y'];
+			//rp.angle = payload['a'];
 			//rp.velocity.x = payload['vx'];
 			//rp.velocity.y = payload['vy'];
 			//rp.angularVelocity = payload['av'];

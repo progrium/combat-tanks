@@ -1,6 +1,8 @@
 #!/bin/sh
 
 cp bin-debug/CombatTanks.swf www/debug
+git add www
+git commit -m "Publishing swf to gh-pages"
 
 branch_name=gh-pages
 doc_root=www

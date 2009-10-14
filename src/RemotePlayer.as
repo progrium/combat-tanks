@@ -19,7 +19,10 @@ package
 		}
 		
 		public function updateState(update:Object):void {
-			stateUpdate = update;
+			//stateUpdate = update;
+			this.x = update['x'];
+			this.y = update['y'];
+			this.angle = update['a'];
 		}
 		
 		override public function update():void {
@@ -37,13 +40,13 @@ package
 			}
 		
 			super.update();
-			
+			/*
 			if (stateUpdate['latency'] > 0) {
 				angle = stateUpdate['a'] + (angularVelocity = FlxG.computeVelocity(angularVelocity,angularAcceleration,angularDrag,maxAngular))*stateUpdate['latency'];
 				x = stateUpdate['x'] + (velocity.x = FlxG.computeVelocity(velocity.x,acceleration.x,drag.x,maxVelocity.x))*stateUpdate['latency'];
 				y = stateUpdate['y'] + (velocity.y = FlxG.computeVelocity(velocity.y,acceleration.y,drag.y,maxVelocity.y))*stateUpdate['latency'];
 				stateUpdate['latency'] = 0;
-			}
+			}*/
 		}
 		
 		override public function hitWall():Boolean { rejigger(); return true; }

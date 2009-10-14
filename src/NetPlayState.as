@@ -19,7 +19,7 @@ package {
 		protected var pingTimer:Number = 0;
 		protected var ping:FlxText;
 		
-		protected var playerPositions:Array = [[64,64, 0, 'red'], [676, 462, 180, 'blue']];
+		protected var playerPositions:Array = [[64,64, 0, 'red'], [680, 462, 180, 'blue']];
 		
 		public function NetPlayState():void {
 			super();
@@ -125,10 +125,10 @@ package {
 		public function onState(payload:Object):void {
 			var rp:RemotePlayer = this.remotePlayers[payload['player']];
 			payload['latency'] = this.ping;
-			rp.updateState(payload);
-			//rp.x = payload['x'];
-			//rp.y = payload['y'];
-			//rp.angle = payload['a'];
+			//rp.updateState(payload);
+			rp.x = payload['x'];
+			rp.y = payload['y'];
+			rp.angle = payload['a'];
 			//rp.velocity.x = payload['vx'];
 			//rp.velocity.y = payload['vy'];
 			//rp.angularVelocity = payload['av'];

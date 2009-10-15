@@ -8,8 +8,8 @@ package
 		protected var move:Object = new Object();
 		protected var stateUpdate:Object = new Object();
 		
-		public function RemotePlayer(color:String, X:int,Y:int, angle:int) {
-			super(color, X, Y, angle); 
+		public function RemotePlayer(number:int, color:String, X:int,Y:int, angle:int) {
+			super(number, color, X, Y, angle); 
 		}
 		
 		public function addMove(move:Object):void {
@@ -19,10 +19,7 @@ package
 		}
 		
 		public function updateState(update:Object):void {
-			//this.stateUpdate = update;
-			/*this.x = update['x'];
-			this.y = update['y'];
-			this.angle = update['a'];*/
+			this.health = update['h'];
 			this.angle = update['a'] + angularVelocity*update['latency'];
 			this.x = update['x'] + velocity.x*update['latency'];
 			this.y = update['y'] + velocity.y*update['latency'];

@@ -21,6 +21,8 @@ package {
 		protected var latency:Number;
 		protected var pingText:FlxText;
 		
+		protected var playTimer:Number = 0;
+		
 		protected var playerPositions:Array = [[64,64, 0, 'red'], [680, 462, 180, 'blue']];
 		
 		public function NetPlayState():void {
@@ -35,16 +37,33 @@ package {
 			CombatTanks.connection.on('STATE', onState);	
 			CombatTanks.connection.on('SHOOT', onShoot);
 			CombatTanks.connection.on('PONG', onPong);
+			CombatTanks.connection.on('HIT', onHit);
 			
 			CombatTanks.connection.send("READY");
 			this.sendPing();
+			
+			CombatTanks.tracker.trackEvent("Games", "Started");
 
+		}
+		
+		override protected function bulletHitTank(bullet:Bullet,tank:Tank):void {
+			if (bullet.owner != tank) {
+				bullet.hurt(0);
+				if (tank == this.player) {
+					tank.hurt(0.1);
+					CombatTanks.connection.send("HIT");
+				}
+			}
 		}
 		
 		override public function setupHud():void {
 			super.setupHud();
 			this.pingText = new FlxText(10, 550, 200, 20, "Ping", 0xffffffff, null, 16);
 			this.add(this.pingText);
+		}
+		
+		public function onHit(payload:Object):void {
+			this.remotePlayers[payload['player']].hurt(0.1);
 		}
 		
 		public function onPong(payload:Object):void {
@@ -59,7 +78,7 @@ package {
 		
 		public function onPlayer(payload:Object):void {
 			var position:Array = playerPositions[payload['player']];
-			this.remotePlayers[payload['player']] = new RemotePlayer(position[3], position[0], position[1], position[2]);
+			this.remotePlayers[payload['player']] = new RemotePlayer(payload['player'], position[3], position[0], position[1], position[2]);
 		}
 		
 		public function onReady(payload:Object):void {
@@ -93,11 +112,11 @@ package {
 			CombatTanks.connection.send("STATE", {
 				"x": round(this.player.x, 2), 
 				"y": round(this.player.y, 2),
-				"a": round(this.player.angle, 2)
+				"a": round(this.player.angle, 2),
+				"h": round(this.player.health, 2)
 				//"vx": round(this.player.velocity.x, 2),
 				//"vy": round(this.player.velocity.y, 2),
 				//"av": round(this.player.angularVelocity, 2),
-				//"h": this.player.health
 			});
 			this.moveTimer = 0;
 		}
@@ -130,13 +149,6 @@ package {
 			var rp:RemotePlayer = this.remotePlayers[payload['player']];
 			payload['latency'] = this.latency;
 			rp.updateState(payload);
-			//rp.x = payload['x'];
-			//rp.y = payload['y'];
-			//rp.angle = payload['a'];
-			//rp.velocity.x = payload['vx'];
-			//rp.velocity.y = payload['vy'];
-			//rp.angularVelocity = payload['av'];
-			//rp.health = payload['health'];
 		}
 		
 		override public function update():void {
@@ -144,6 +156,7 @@ package {
 			
 			this.moveTimer += FlxG.elapsed;
 			this.pingTimer += FlxG.elapsed;
+			this.playTimer += FlxG.elapsed;
 			
 			if (this.ready) {
 				
@@ -182,6 +195,10 @@ package {
 				if (FlxG.justPressed(FlxG.B))
 					CombatTanks.connection.send("SHOOT");
 			}
+		}
+		
+		override public function endGame():void {
+			CombatTanks.tracker.trackEvent("Games", "Finished", null, this.playTimer);
 		}
 		
 		protected function round(num:Number, precision:Number):Number {

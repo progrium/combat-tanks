@@ -25,8 +25,9 @@ package
 		protected var _moveRight:Boolean = false;
 		protected var _shoot:Boolean = false;
 		
+		public var number:int; 
 		
-		public function Tank(color:String, X:int,Y:int, angle:int = 0)
+		public function Tank(number:int, color:String, X:int,Y:int, angle:int = 0)
 		{
 			var tanks:Object = {
 				"red": ImgRedTank,
@@ -36,6 +37,7 @@ package
 			};
 			super(tanks[color],X,Y,true,true,60);
 			
+			this.number = number;
 			this.angle = angle;
 			
 			//bounding box tweaks
@@ -59,8 +61,10 @@ package
 		{
 			//FlxG.play(SndHit);
 			flicker(0.2);
+			if((health -= Damage) <= 0.05)
+				kill();
 			//FlxG.score += 50;
-			super.hurt(Damage);
+			//super.hurt(Damage);
 		}
 		
 		override public function kill():void

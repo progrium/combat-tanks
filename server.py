@@ -37,6 +37,9 @@ class GameProtocol(LineReceiver):
             if player != self:
                 player.send(cmd, payload)
     
+    def hit(self, payload):
+    	self._relay('hit')
+    
     def shoot(self, payload):
         self._relay('shoot')
     

@@ -31,9 +31,8 @@ package {
 			Security.loadPolicyFile("xmlsocket://files.tigsource.com:843");
 			currentTerrain = Math.floor(Math.random()*2)
 			currentTerrain = 1; // debug
-			super(800, 576, WaitPlayState, 1, terrains[currentTerrain][0], false, 0xffffffff);
+			super(800, 576, SplashState, 1, terrains[currentTerrain][0], false, 0xffffffff);
 			tracker = new GATracker(this, "UA-6824126-7", "AS3", false);
-			tracker.trackEvent("Sessions", "Started");
 			//super(800, 576, PracticePlayState, 1, terrains[currentTerrain][0], false, 0xffffffff);
 		}
 		

@@ -10,6 +10,7 @@ package {
 		public function WaitPlayState():void {
 			super();
 			
+			
 			this.setupGround();
 			
 			// Player			
@@ -20,6 +21,9 @@ package {
 			this.setupBullets(32);
 			this.setupWalls();
 			this.setupHud();
+			
+			
+			this.healthText.visible = false;
 			
 			this.add(this.status);
 			

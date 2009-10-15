@@ -7,7 +7,14 @@ package
 	{
 		
 		public function Player(color:String, X:int,Y:int, angle:int=0) {
-			super(color, X, Y, angle); 
+			super(CombatTanks.playerNum, color, X, Y, angle); 
+		}
+		
+		override public function kill():void
+		{
+			super.kill();
+			FlxG.quake(0.01);	
+			(FlxG.state as PlayState).endGame();
 		}
 		
 		override public function update():void {

@@ -34,6 +34,7 @@ public class NetSock extends Socket {
         }
         catch(e:IOError) {
             FlxG.log(e.toString());
+            CombatTanks.tracker.trackEvent("Errors", "Network", e.toString());
         }
     }
 
@@ -55,10 +56,12 @@ public class NetSock extends Socket {
 
     private function ioErrorHandler(event:IOErrorEvent):void {
         FlxG.log("ioErrorHandler: " + event);
+        CombatTanks.tracker.trackEvent("Errors", "Network", event.toString());
     }
 
     private function securityErrorHandler(event:SecurityErrorEvent):void {
         FlxG.log("securityErrorHandler: " + event);
+        CombatTanks.tracker.trackEvent("Errors", "Network", event.toString());
     }
 
     private function socketDataHandler(event:ProgressEvent):void {

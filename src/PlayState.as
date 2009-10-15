@@ -1,7 +1,8 @@
 package {
 	import com.adamatomic.flixel.*;
 	public class PlayState extends FlxState {
-		private var text:FlxText;
+		protected var titleText:FlxText;
+		protected var healthText:FlxText;
 		public var player:Tank;
 		
 		public var bullets:FlxArray = new FlxArray();
@@ -44,17 +45,32 @@ package {
 		
 		public function setupHud():void {
 			this.add(new FlxSprite(ImgTop,0,0));
-			this.text = new FlxText(10, 5, 200, 20, "Combat Tanks",0xffffffff, null, 16);
-			this.add(text);
+			this.titleText = new FlxText(10, 5, 200, 20, "Combat Tanks",0xffffffff, null, 16);
+			this.add(titleText);
+			
+			this.healthText = new FlxText(670, 5, 150, 20, "Health: 100%", 0xffffffff, null, 16);
+			this.add(this.healthText);
+		}
+		
+		public function endGame():void {
+		
 		}
 		
 		override public function update():void {
 			super.update();
 			
+			var healthPercent:int = this.player.health * 100;
+			if (this.player.health <= 0.05) {
+				this.healthText.setText("You died!");	
+			} else {
+				this.healthText.setText("Health: " + healthPercent + "%");
+			}
+			
+			
 			FlxG.collideArray2(this.tilemap, this.bullets);
 			FlxG.collideArray2(this.tilemap, this.tanks);
 			
-			FlxG.overlapArrays(this.bullets,this.tanks,bulletHitBot);
+			FlxG.overlapArrays(this.bullets,this.tanks,bulletHitTank);
 			
 			for each (var tank:Tank in this.tanks) {
 				var tanks:FlxArray = new FlxArray();
@@ -67,11 +83,11 @@ package {
 			
 		}
 		
-		private function bulletHitBot(bullet:Bullet,bot:FlxSprite):void
+		protected function bulletHitTank(bullet:Bullet,tank:Tank):void
 		{
-			if (bullet.owner != bot) {
+			if (bullet.owner != tank) {
 				bullet.hurt(0);
-				bot.hurt(0.1);
+				tank.hurt(0.1);
 			}
 		}
 		

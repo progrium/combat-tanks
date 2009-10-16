@@ -1,10 +1,40 @@
 <html>
   <head>
     <title>Combat Tanks!</title>
+    <style type="text/css">
+    	body { font-family: Georgia; }
+    	p { padding-left: 5px; padding-right: 10px; }
+    </style>
   </head>
-  <body>
-    <a href="/debug/CombatTanks.html">Play latest dev version</a>
-  </body>
+  <body style="background: #c2c2c2;">
+  	<div style="width:800px; margin-left: auto; margin-right: auto;">
+    <h1><img src="tank.png" valign="middle" /> Combat Tanks Alpha</h1>
+    <p>This is an early version of a multiplayer Flash game I'm working on called Combat Tanks. It's a remake of Michael Morrison's 
+    <a href="http://www.michaelmorrison.com/content/combat-tanks">Combat Tanks</a>, which itself was a remake of the tank mode of the 
+    the Atari 2600 game <a href="http://en.wikipedia.org/wiki/Combat_%28video_game%29">Combat</a>. I really enjoyed playing Combat Tanks
+    with my dad, but the game is fairly inaccessible now. I also thought it would benefit from networked multiplayer and my brand of 
+    crappy pixel art.</p>
+    <p>Give feedback with the link on the left. Nobody else playing? Share this URL with a friend! &nbsp;--Jeff</p>
+    <div>
+    <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+			id="CombatTanks" width="800" height="576"
+			codebase="http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab">
+			<param name="movie" value="debug/CombatTanks.swf?23" />
+			<param name="quality" value="high" />
+			<param name="bgcolor" value="#869ca7" />
+			<param name="allowScriptAccess" value="sameDomain" />
+			<embed src="debug/CombatTanks.swf?wf" quality="high" bgcolor="#869ca7"
+				width="800" height="576" name="CombatTanks" align="middle"
+				play="true"
+				loop="false"
+				quality="high"
+				allowScriptAccess="sameDomain"
+				type="application/x-shockwave-flash"
+				pluginspage="http://www.adobe.com/go/getflashplayer">
+			</embed>
+	</object>
+	</div>
+	</div>
   <script type="text/javascript">
     var uservoiceJsHost = ("https:" == document.location.protocol) ? "https://uservoice.com" : "http://cdn.uservoice.com";
     document.write(unescape("%3Cscript src='" + uservoiceJsHost + "/javascripts/widgets/tab.js' type='text/javascript'%3E%3C/script%3E"))
@@ -32,4 +62,5 @@
   var pageTracker = _gat._getTracker("UA-6824126-7");
   pageTracker._trackPageview();
   } catch(err) {}</script>
+  </body>
 </html>
